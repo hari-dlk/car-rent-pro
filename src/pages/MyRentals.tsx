@@ -122,14 +122,6 @@ const MyRentals = () => {
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-hero text-primary-foreground py-8 px-4">
         <div className="container mx-auto">
-          <Button
-            variant="secondary"
-            onClick={() => navigate("/dashboard")}
-            className="mb-4 gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Button>
           <h1 className="text-4xl font-bold">My Rentals</h1>
           <p className="text-primary-foreground/80 mt-1">
             Manage your currently rented vehicles
@@ -180,7 +172,7 @@ const MyRentals = () => {
                   <div className="flex items-center gap-2 text-sm">
                     <DollarSign className="h-4 w-4" />
                     <span className="font-semibold">
-                      ${rental.cars.price_per_day}/day
+                      ₹{rental.cars.price_per_day.toLocaleString('en-IN')}/day
                     </span>
                   </div>
                 </CardContent>

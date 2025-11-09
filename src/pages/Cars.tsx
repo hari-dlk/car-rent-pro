@@ -112,20 +112,12 @@ const Cars = () => {
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-hero text-primary-foreground py-8 px-4">
         <div className="container mx-auto">
-          <Button
-            variant="secondary"
-            onClick={() => navigate("/dashboard")}
-            className="mb-4 gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
-          </Button>
           <div className="flex items-center gap-3">
             <CarIcon className="h-10 w-10" />
             <div>
               <h1 className="text-4xl font-bold">Available Cars</h1>
               <p className="text-primary-foreground/80 mt-1">
-                Choose from our premium collection
+                Choose from our premium collection - Indian & International brands
               </p>
             </div>
           </div>
@@ -169,7 +161,7 @@ const Cars = () => {
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-primary">
-                  ${car.price_per_day}
+                  ₹{car.price_per_day.toLocaleString('en-IN')}
                   <span className="text-sm font-normal text-muted-foreground">/day</span>
                 </div>
               </CardContent>
