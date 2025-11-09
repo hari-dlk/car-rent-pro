@@ -26,7 +26,6 @@ const Cars = () => {
   const { toast } = useToast();
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
-  const [rentingId, setRentingId] = useState<string | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -61,43 +60,8 @@ const Cars = () => {
     }
   };
 
-  const handleRent = async (carId: string) => {
-    setRentingId(carId);
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      // Create rental
-      const { error: rentalError } = await supabase.from("rentals").insert({
-        user_id: user.id,
-        car_id: carId,
-      });
-
-      if (rentalError) throw rentalError;
-
-      // Update car status
-      const { error: updateError } = await supabase
-        .from("cars")
-        .update({ status: "Rented" })
-        .eq("id", carId);
-
-      if (updateError) throw updateError;
-
-      toast({
-        title: "Success!",
-        description: "Car rented successfully. Check My Rentals.",
-      });
-
-      fetchCars();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setRentingId(null);
-    }
+  const handleRent = (car: Car) => {
+    navigate("/payment", { state: { car } });
   };
 
   if (loading) {
@@ -168,14 +132,10 @@ const Cars = () => {
               <CardFooter>
                 <Button
                   className="w-full"
-                  disabled={car.status !== "Available" || rentingId === car.id}
-                  onClick={() => handleRent(car.id)}
+                  disabled={car.status !== "Available"}
+                  onClick={() => handleRent(car)}
                 >
-                  {rentingId === car.id
-                    ? "Renting..."
-                    : car.status === "Available"
-                    ? "Rent Now"
-                    : "Not Available"}
+                  {car.status === "Available" ? "Rent Now" : "Not Available"}
                 </Button>
               </CardFooter>
             </Card>
